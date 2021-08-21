@@ -10,13 +10,12 @@ function LandingPage() {
     const [password, onChangePassword] = useState("")
     let history = useHistory();
     const onLoginPress = () => {
-        console.log(username);
-        console.log(password);
-        history.push("/AddNewInventory");
+        history.push("/HomePage");
     }
     const onRegisterPress = () => {
 
     }
+
     return (
         <KeyboardAvoidingView style={styles.containerView} behavior="padding">
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

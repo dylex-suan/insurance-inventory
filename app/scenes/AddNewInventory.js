@@ -1,67 +1,80 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Button } from 'react-native';
-import { StyleSheet, Text, SafeAreaView, View, Image } from 'react-native';
+import { StatusBar } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Text, ScrollView, Button } from 'react-native';
 import { useHistory } from 'react-router-native';
-import { justifyContent } from 'styled-system';
-import DisplayPossibleDirectories from '../components/DisplayPossibleDirectories';
+import DisplayRooms from '../components/DisplayRooms';
+import SendButton from '../components/SendButton';
 
 function AddNewInventory(props) {
     let history = useHistory();
 
-    // go back to home
-    const pushToHome = () => {
-        history.push('/');
+    const goBackToHome = () => {
+        history.push('/HomePage')
     }
+    console.log(props);
+    // will need to load current rooms that are already preset, and then add more rooms if the user so chooses
+    const roomsPreset = [
+        { name: "Living Room", },
+        { name: "Kitchen" },
+        { name: "Master Bedroom" },
+        { name: "Basement" },
+        { name: "Attic" }
+    ]
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.topContainer}>
-                <Text style={styles.inventoryText}>
-                    Inventory Area
-                </Text>
-                <DisplayPossibleDirectories text="Add New Inventory" directTo="/addNewInventory"/>
-                <DisplayPossibleDirectories text="Load Previous Inventories" directTo="/loadPreviousInventories" />
-                <View style={styles.buttonGoBack}>
-                    <Button
-                        title="Return To Login"
-                        color="#FFFFFF"
-                        onPress={pushToHome} />
-                </View>
+        <SafeAreaView style={styles.outerContainer}>
+            <View style={{
+                backgroundColor: "red",
+            }}>
+                <Button
+                    title="Go Back"
+                    color="#FFFFFF"
+                    onPress={goBackToHome} />
             </View>
-        </SafeAreaView>
+            <Text style={styles.inventoryText}>New Inventory: {props.location.state.newInventoryName}</Text>
+            <View style={{ height: "60%", width: "100%", alignItems: 'center' }}>
+                <ScrollView style={styles.scrollView}>
+                    <View style={{
+                        alignItems: 'center',
+                        marginTop: 10,
+                    }}>
+                        {roomsPreset.map(function (d, value) {
+                            return (
+                                <DisplayRooms name={d.name} key={value} />
+                            )
+                        })}
+                    </View>
+                </ScrollView>
+            </View>
+            <SendButton></SendButton>
+        </SafeAreaView >
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    outerContainer: {
         flex: 1,
         backgroundColor: "#35A7FF",
-        alignItems: "center",
-        justifyContent: 'space-between'
-        // justifyContent: "flex-end"
-    },
-    topContainer: {
-        flex: 1
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: StatusBar.currentHeight,
     },
     inventoryText: {
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: "800",
         marginTop: 20,
         marginBottom: 30,
         textAlign: 'center',
     },
-    imageIcon: {
-        padding: 10,
-        margin: 5,
-        height: 25,
-        width: 25,
-        resizeMode: 'stretch',
+    scrollView: {
+        width: "90%",
+        backgroundColor: "lightblue",
     },
-    buttonGoBack: {
-        marginTop: 30,
-        backgroundColor: 'rgb(93, 95, 222)',
-    }
-
+    rectangle: {
+        height: 250,
+        width: 250,
+        marginBottom: 5,
+        backgroundColor: "red"
+    },
 })
 export default AddNewInventory;

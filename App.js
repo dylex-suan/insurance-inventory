@@ -3,15 +3,18 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LandingPage from './app/scenes/LandingPage';
 import { NativeRouter, Route, Link } from 'react-router-native';
+import HomePage from './app/scenes/HomePage';
+import TakePictures from './app/scenes/TakePicture';
 import AddNewInventory from './app/scenes/AddNewInventory';
 export default function App() {
   return (
     // <LandingPage />
     <NativeRouter>
       <Route exact path="/" component={LandingPage} />
-      <Route exact path="/AddNewInventory" component={AddNewInventory} />
+      <Route exact path="/HomePage" component={HomePage} />
+      <Route exact path="/addNewInventory" component={AddNewInventory} />
+      <Route exact path="/takePictures" component={TakePictures} />
     </NativeRouter>
-    
   );
 }
 

@@ -11,8 +11,10 @@ function DisplayPossibleDirectories(props) {
 
     const determinePath = (link) => {
         if (link === ADDNEW) {
-            console.log(ADDNEW)
-            const getName = Alert.alert("Name of Inventory", "Please enter the name of the inventory in the text-field below.")
+            // add the name of the inventory, alert image pops out
+            Alert.prompt("Name of Inventory", "Please enter the name of the inventory in the text-field below.", (text) => {
+                history.push(ADDNEW, { newInventoryName: text });
+            })
         } else if (link === LOADPREVIOUS) {
             console.log(LOADPREVIOUS)
         }
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: "#EF5B5B",
         borderStyle: "solid",
-        marginBottom: 30,
+        marginTop: 10,
         alignItems: "center"
     },
     text: {

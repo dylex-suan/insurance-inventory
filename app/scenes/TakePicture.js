@@ -4,7 +4,7 @@ import { Camera } from 'expo-camera';
 import { takePicture } from 'react-native-camera-hooks/src/takePicture';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function TakePictures() {
+export default function TakePictures(props) {
   const [hasGalleryPermission, setGalleryPermission] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
@@ -13,18 +13,25 @@ export default function TakePictures() {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+      try {
+        console.log(props.location.state.locationOfImage);
+        const { status } = await Camera.requestPermissionsAsync();
+        setHasPermission(status === 'granted');
 
-      const { galleryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      setGalleryPermission(galleryStatus.status === 'granted');
+        const { galleryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        console.log(galleryStatus);
+        setGalleryPermission(galleryStatus.status === 'granted');
+      } catch (err) {
+        console.log(err);
+      }
 
     })();
   }, []);
 
   const takePicture = async () => {
-    if(camera){
+    if (camera) {
       const data = await camera.takePictureAsync(null)
+      console.log(data);
       setImage(data.uri)
     }
   }
@@ -51,37 +58,37 @@ export default function TakePictures() {
     return <Text>No access to camera</Text>;
   }
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View style={styles.container}>
         <Camera style={styles.fixedRatio}
-        ref={ref => setCamera(ref)}
-        type={type}
-        ratio={'1:1'}/>
-        </View>
+          ref={ref => setCamera(ref)}
+          type={type}
+          ratio={'1:1'} />
+      </View>
 
-        
-          <Button
-            title= "Flip Image"
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
 
-          </Button>
-          <Button
-          title="Take Picture"
-          onPress={()=> takePicture()}/>
+      <Button
+        title="Flip Image"
+        onPress={() => {
+          setType(
+            type === Camera.Constants.Type.back
+              ? Camera.Constants.Type.front
+              : Camera.Constants.Type.back
+          );
+        }}>
 
-          <Button
-          title="Pick Image from Gallery"
-          onPress={()=> pickImage()}/>      
-        
-        {image && <Image source={{uri: image}} style={{flex: 1}}/>}
+      </Button>
+      <Button
+        title="Take Picture"
+        onPress={() => takePicture()} />
 
-          </View>
+      <Button
+        title="Pick Image from Gallery"
+        onPress={() => pickImage()} />
+
+      {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+
+    </View>
 
   );
 }
