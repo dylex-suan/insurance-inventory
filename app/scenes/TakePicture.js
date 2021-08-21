@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Button, Image } from 'react-native';
+import { useHistory } from 'react-router-native';
 import { Camera } from 'expo-camera';
 import { takePicture } from 'react-native-camera-hooks/src/takePicture';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,6 +11,8 @@ export default function TakePictures(props) {
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+
+  let history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -29,10 +32,14 @@ export default function TakePictures(props) {
   }, []);
 
   const takePicture = async () => {
-    if (camera) {
-      const data = await camera.takePictureAsync(null)
-      console.log(data);
-      setImage(data.uri)
+    try {
+      if (camera) {
+        const data = await camera.takePictureAsync(null)
+        setImage(data.uri)
+        // history.push('/displayPhoto', { uri: data.uri });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -65,8 +72,6 @@ export default function TakePictures(props) {
           type={type}
           ratio={'1:1'} />
       </View>
-
-
       <Button
         title="Flip Image"
         onPress={() => {
@@ -76,18 +81,14 @@ export default function TakePictures(props) {
               : Camera.Constants.Type.back
           );
         }}>
-
       </Button>
       <Button
         title="Take Picture"
         onPress={() => takePicture()} />
-
       <Button
         title="Pick Image from Gallery"
         onPress={() => pickImage()} />
-
       {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
-
     </View>
 
   );

@@ -1,8 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { StyleSheet, SafeAreaView, View, Text, ScrollView, Button } from 'react-native';
-import { useHistory } from 'react-router-native';
+import { BackButton, useHistory } from 'react-router-native';
 import DisplayRooms from '../components/DisplayRooms';
+
 import SendButton from '../components/SendButton';
 
 function AddNewInventory(props) {
@@ -11,7 +12,6 @@ function AddNewInventory(props) {
     const goBackToHome = () => {
         history.push('/HomePage')
     }
-    console.log(props);
     // will need to load current rooms that are already preset, and then add more rooms if the user so chooses
     const roomsPreset = [
         { name: "Living Room", },
@@ -23,12 +23,14 @@ function AddNewInventory(props) {
 
     return (
         <SafeAreaView style={styles.outerContainer}>
+            {/* if you put the following View in a component, it doesn't work, will need to figure this out */}
             <View style={{
-                backgroundColor: "red",
+                backgroundColor: "turquoise",
+                width: "100%"
             }}>
                 <Button
                     title="Go Back"
-                    color="#FFFFFF"
+                    color="#000"
                     onPress={goBackToHome} />
             </View>
             <Text style={styles.inventoryText}>New Inventory: {props.location.state.newInventoryName}</Text>
@@ -46,8 +48,8 @@ function AddNewInventory(props) {
                     </View>
                 </ScrollView>
             </View>
-            <SendButton></SendButton>
-        </SafeAreaView >
+            <SendButton />
+        </SafeAreaView>
     );
 }
 
