@@ -11,6 +11,7 @@ export default function App() {
       <Route exact path="/" component={LandingPage} />
       <Route exact path="/AddNewInventory" component={AddNewInventory} />
     </NativeRouter>
+    
   );
 }
 

@@ -20,8 +20,8 @@ function AddNewInventory(props) {
                 <Text style={styles.inventoryText}>
                     Inventory Area
                 </Text>
-                <DisplayPossibleDirectories text="Add New Inventory" />
-                <DisplayPossibleDirectories text="Load Previous Inventories" />
+                <DisplayPossibleDirectories text="Add New Inventory" directTo="/addNewInventory"/>
+                <DisplayPossibleDirectories text="Load Previous Inventories" directTo="/loadPreviousInventories" />
                 <View style={styles.buttonGoBack}>
                     <Button
                         title="Return To Login"
