@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NativeBaseProvider, Box, keyboardDismissHandlerManager } from 'native-base';
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, StyleSheet, View, Text, TextInput, Button } from 'react-native';
 import { style } from 'styled-system';
+import { useHistory } from 'react-router-native';
 // import { Button } from 'react-native-elements';s
 
 function LandingPage() {
+    const [username, onChangeUsername] = useState("")
+    const [password, onChangePassword] = useState("")
+    let history = useHistory();
     const onLoginPress = () => {
-        console.log("Login press")
+        console.log(username);
+        console.log(password);
+        history.push("/AddNewInventory");
     }
     const onRegisterPress = () => {
-        console.log("Register button")
+
     }
     return (
         <KeyboardAvoidingView style={styles.containerView} behavior="padding">
@@ -17,8 +23,8 @@ function LandingPage() {
                 <View style={styles.loginScreenContainer}>
                     <View style={styles.loginFormView}>
                         <Text style={styles.logoText}>Insurance App</Text>
-                        <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
-                        <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} />
+                        <TextInput placeholder="Username" onChangeText={onChangeUsername} placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
+                        <TextInput placeholder="Password" onChangeText={onChangePassword} placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} />
                         <View style={style.bringToBottom}>
                             <View style={styles.loginButton}>
                                 <Button
@@ -83,7 +89,8 @@ const styles = StyleSheet.create({
     //     justifyContent: 'center',
     // },
     bringToBottom: {
-        marginTop: 50
+        flex: 1,
+        justifyContent: "flex-end"
     },
     loginButton: {
         backgroundColor: 'rgb(93, 95, 222)',
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "auto"
+        marginTop: "40%"
     },
     registerButton: {
         backgroundColor: '#FF5964',
