@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button, Image, NativeModules } from 'react-native';
 import { Camera } from 'expo-camera';
-import { takePicture } from 'react-native-camera-hooks/src/takePicture';
 import * as ImagePicker from 'expo-image-picker';
+import ImgToBase64 from 'react-native-image-base64';
+// import imageToBase64 from 'image-to-base64/browser';
 
 export default function TakePictures() {
   const [hasGalleryPermission, setGalleryPermission] = useState(null);
@@ -26,8 +27,11 @@ export default function TakePictures() {
     if(camera){
       const data = await camera.takePictureAsync(null)
       setImage(data.uri)
+
     }
   }
+  
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,6 +47,37 @@ export default function TakePictures() {
       setImage(result.uri);
     }
   };
+
+  const saveImage = (photoUri) => {
+    // const imageToBase64 = require('image-to-base64');
+    console.log('hello')
+
+    // const dataUrl = getDataUrl(photoUri);
+    // console.log(dataUrl)
+    // console.log(ImgToBase64)
+    const data = ImgToBase64(photoUri)
+    console.log(data)
+
+    fetch("http://192.168.1.106:3000/image",
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        title: 'image',
+        body: data
+      }).then(response => {
+        console.log("image uploaded")
+      }).catch(err => {
+        console.log(err)
+      })  
+    })
+
+    console.log('success')
+
+    
+    
+    }
+  
+
 
   if (hasPermission === null || hasGalleryPermission === false) {
     return <View />;
@@ -77,7 +112,11 @@ export default function TakePictures() {
 
           <Button
           title="Pick Image from Gallery"
-          onPress={()=> pickImage()}/>      
+          onPress={()=> pickImage()}/>     
+
+          <Button
+          title="Save"
+          onPress={()=> saveImage(image)}/>   
         
         {image && <Image source={{uri: image}} style={{flex: 1}}/>}
 

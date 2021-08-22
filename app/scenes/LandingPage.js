@@ -12,7 +12,7 @@ function LandingPage() {
     const onLoginPress = () => {
         console.log(username);
         console.log(password);
-        history.push("/AddNewInventory");
+        history.push("/TakePicture");
     }
     const onRegisterPress = () => {
 
