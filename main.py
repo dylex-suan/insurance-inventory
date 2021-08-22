@@ -45,12 +45,6 @@ Items = Table(
    Column('location', String(100))
 )
 
-ins = Items.insert()
-ins = Items.insert().values(userid = 1, username = 'Ravi', userpass = 'Kapoor')
-conn = engine.connect()
-result = conn.execute("SELECT * FROM users").all()
-print(result)
-
 @app.route('/processjson-account', methods=['POST'])
 def profilejson():
     req_data = request.get_json()
